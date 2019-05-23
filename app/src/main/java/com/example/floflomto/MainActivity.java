@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    List<String> input = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        List<String> input = new ArrayList<>();
+
 
         mAdapter = new MyAdapter(input);
         recyclerView.setAdapter(mAdapter);
@@ -89,7 +90,9 @@ public class MainActivity extends AppCompatActivity {
         alertDialogBuilder.setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
+                        input.add(editText.getText().toString());
+                        mAdapter = new MyAdapter(input);
+                        recyclerView.setAdapter(mAdapter);
                     }
                 })
                 .setNegativeButton("Cancel",
