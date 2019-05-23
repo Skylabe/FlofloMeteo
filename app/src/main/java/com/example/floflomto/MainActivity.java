@@ -1,5 +1,6 @@
 package com.example.floflomto;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
+    private Context context;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -42,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-
-        mAdapter = new MyAdapter(input);
+        context = this;
+        mAdapter = new MyAdapter(context, input);
         recyclerView.setAdapter(mAdapter);
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         input.add(editText.getText().toString());
-                        mAdapter = new MyAdapter(input);
+                        mAdapter = new MyAdapter(context, input);
                         recyclerView.setAdapter(mAdapter);
                     }
                 })
