@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -46,7 +47,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     // Provide a suitable constructor (depends on the kind of dataset)
     public MyAdapter(Context context, List<String> myDataset) {
-        values = myDataset;
+        this.context = context; values = myDataset;
     }
 
     // Create new views (invoked by the layout manager)
@@ -73,8 +74,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.txtHeader.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(v, "You click on " + name, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent weatherActivity = new Intent(context, WeatherActivity.class);
+                weatherActivity.putExtra("cityName",name);
+                context.startActivity(weatherActivity);
+                /*Snackbar.make(v, "You click on " + name, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
             }
         });
 
