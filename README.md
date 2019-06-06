@@ -13,10 +13,14 @@ Mon projet se nomme "FlofloMétéo" et se base sur une API permettant la récolt
 
 ## Présentation
 - Première activité avec la liste des villes déjà enregistrés + un bouton permettant l'ajout d'une ville.
+![alt text](https://ibb.co/NxgCSBb)
 
 - Popup permettant de rentrer le nom de la nouvelle ville.
+![alt text](https://ibb.co/1Z4Gbqz)
+![alt text](https://ibb.co/K6gkpFh)
 
 - Deuxième activité affichant la température de la ville sélectionnée.
+![alt text](https://ibb.co/1MP7tgJ)
 
 ## Lien vers le site de l'API
 https://openweathermap.org/api
