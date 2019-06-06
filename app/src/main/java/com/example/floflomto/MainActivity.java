@@ -1,6 +1,8 @@
 package com.example.floflomto;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,13 +19,15 @@ import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-
+    private Context context;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     List<String> input = new ArrayList<>();
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +46,16 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
+        sharedPreferences = this.getSharedPreferences(getString(R.string.added_cities), Context.MODE_PRIVATE);
 
-        mAdapter = new MyAdapter(input);
+        Map<String, ?> cities = sharedPreferences.getAll();
+
+        for (Map.Entry<String, ?> added : cities.entrySet()) {
+            input.add(added.getKey());
+        }
+
+        context = this;
+        mAdapter = new MyAdapter(context, input);
         recyclerView.setAdapter(mAdapter);
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -91,8 +103,11 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         input.add(editText.getText().toString());
-                        mAdapter = new MyAdapter(input);
+                        mAdapter = new MyAdapter(context, input);
                         recyclerView.setAdapter(mAdapter);
+                        sharedPreferences.edit()
+                                .putString(editText.getText().toString(), editText.getText().toString())
+                                .apply();
                     }
                 })
                 .setNegativeButton("Cancel",
