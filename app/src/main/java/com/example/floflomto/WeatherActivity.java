@@ -45,8 +45,12 @@ public class WeatherActivity extends AppCompatActivity {
 
                         if (response.isSuccessful()) {
                             String name = weather.getName();
+                            float temp = weather.getMain().getTemp();
                             TextView txtView = findViewById(R.id.textCity);
                             txtView.setText(name);
+
+                            TextView tempView = findViewById(R.id.textTemp);
+                            tempView.setText("Température : " + String.format("%.2f", temp-273.15) + "°C");
                         }
                     }
 
