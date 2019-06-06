@@ -2,6 +2,7 @@ package com.example.floflomto;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private Context context;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     List<String> input = new ArrayList<>();
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,14 @@ public class MainActivity extends AppCompatActivity {
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+
+        sharedPreferences = this.getSharedPreferences(getString(R.string.added_cities), Context.MODE_PRIVATE);
+
+        Map<String, ?> cities = sharedPreferences.getAll();
+
+        for (Map.Entry<String, ?> added : cities.entrySet()) {
+            input.add(added.getKey());
+        }
 
         context = this;
         mAdapter = new MyAdapter(context, input);
@@ -94,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
                         input.add(editText.getText().toString());
                         mAdapter = new MyAdapter(context, input);
                         recyclerView.setAdapter(mAdapter);
+                        sharedPreferences.edit()
+                                .putString(editText.getText().toString(), editText.getText().toString())
+                                .apply();
                     }
                 })
                 .setNegativeButton("Cancel",
